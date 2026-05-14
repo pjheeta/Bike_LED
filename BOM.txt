@@ -1,0 +1,22 @@
+Burning Man LEDs based on Monkey Light Design
+
+🚲 Updated POV BOM — Qlife Racer (26" Wheel)
+⚠️ Key Decision First: Use the FRONT wheel
+The rear wheel has a hub motor — spoke geometry is different, it's heavier, and mounting is messier. Front wheel is clean, symmetrical, and easy to work with. All recommendations below assume front wheel.
+
+Core Electronics
+#ComponentBike-Specific NotesEst. Cost1Raspberry Pi PicoStandard Pico~$42APA102 LED Strip — 144 LEDs/m26" wheel ≈ 270mm effective spoke length → cut to ~39 LEDs per arm~$183Hall Effect Sensor (A3144)Mounts on front fork — triggers once per rotation~$24Neodymium Magnet (6mm disc)Zip-tied to fork leg, passes sensor on each spin~$15LiPo Battery — 3.7V 2000mAhFlat pouch pack, mounts near hub on spoke arm~$126TP4056 Charger w/ ProtectionCharge via micro-USB when off bike~$27MT3608 5V Boost ConverterSteps 3.7V LiPo → 5V for Pico + LEDs~$2
+Mounting & Structure
+#ComponentNotesEst. Cost83mm Carbon Fiber Flat Strip (300mm)Rigid backing for LED strip — lightweight, won't flex at speed~$893D Printed Hub ClampHolds the Pico + battery at center hub (design printable at a makerspace)~$510Spoke attachment clips / zip tiesSecure carbon strip to 2 parallel spokes~$3
+Playa-Proofing (🔴 Non-negotiable for Burning Man)
+#ComponentNotesEst. Cost11MG Chemicals 419D Conformal CoatBest-in-class dust/moisture protection for all boards~$1512Silicone wire 24 AWGStays flexible in vibration, won't crack~$613Heat shrink + JST-SH connectorsModular disconnect points~$514Gasket foam tapeSeal around enclosure lid~$4
+Tools / Misc
+#ComponentNotesEst. Cost15Perf board (small)Wire up sensor + boost converter~$316Micro USB cablePico programming~$217MultimeterYou probably have one — verify voltages before first spin—
+
+Revised Total: ~$90–110
+
+Two things worth flagging for Burning Man specifically:
+1. Balance matters at speed — once you mount the LED arm + battery, the wheel will be slightly unbalanced. At playa speeds (~15mph) this is usually fine, but mount the battery as close to center hub as possible to minimize it.
+2. Don't tap the e-bike battery — even though the bike has 36V on board, keeping the LED system on its own LiPo keeps it modular, safe, and swappable without touching the motor system.
+
+Ready to dig into the Pico firmware next, or do you want to figure out the physical mounting design first?

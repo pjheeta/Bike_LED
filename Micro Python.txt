@@ -1,0 +1,53 @@
+MicroPython — it's the standard for Raspberry Pi Pico projects like this.
+It's Python, so you already know the syntax from Boot.dev. The main difference is you're running it on bare hardware with no OS underneath, so instead of importing regular Python libraries you'll be using micro-versions designed for microcontrollers.
+The two libraries you'll lean on most:
+
+machine — controls GPIO pins, SPI bus (how you talk to the APA102 LEDs), and timers
+utime — microsecond-level timing, critical for POV sync
+
+The rough shape of the firmware logic will be:
+1. Hall sensor fires → record timestamp (this = 0°)
+2. Calculate RPM from time between pulses
+3. Divide 360° into columns (one per LED refresh cycle)
+4. Loop: at each column angle → push the right pixel column to the LED strip via SPI
+5. Repeat ~30x per rotation for a full image
+The APA102's SPI interface is actually one of the reasons we picked it over WS2812B — MicroPython's SPI is fast enough to update all 39 LEDs between column steps at normal riding speed.
+You'll write and flash code from your MacBook using Thonny (free IDE built for MicroPython on Pico) or just VS Code with the MicroPico extension.
+Want to start mapping out the firmware structure, or get hardware ordered first?
+
+
+Here's the full pseudocode broken into the three main blocks — data, interrupt, and main loop:
+Block 1 — Data (your animation frames)
+python# Each frame = 2D array: [NUM_COLUMNS][NUM_LEDS] of (R, G, B)
+# NUM_COLUMNS = angular slices (e.g. 60 = every 6°)
+# NUM_LEDS = 39 (your spoke length)
+
+FRAMES = [
+    frame_0,   # first image in the animation
+    frame_1,
+    frame_2,
+    ...
+]
+ROTATIONS_PER_FRAME = 5   # how fast animation cycles
+Block 2 — Hall sensor interrupt (runs in background)
+python# Fires every time the magnet passes the sensor (= one full rotation)
+def on_hall_trigger():
+    now = time_us()
+    rotation_period = now - last_hall_time   # microseconds/revolution
+    last_hall_time = now
+    rotation_count += 1
+
+    if rotation_count % ROTATIONS_PER_FRAME == 0:
+        current_frame = (current_frame + 1) % len(FRAMES)
+Block 3 — Main loop (runs forever)
+pythonwhile True:
+    if rotation_period == 0:
+        continue   # wheel not spinning yet, do nothing
+
+    column_duration_us = rotation_period / NUM_COLUMNS
+
+    for col in 0..NUM_COLUMNS:
+        pixel_column = FRAMES[current_frame][col]   # 39 RGB values
+        SPI.write(pixel_column)                      # push to APA102 strip
+        sleep_us(column_duration_us)                 # wait for next angular slot
+And here's how it all flows together:
