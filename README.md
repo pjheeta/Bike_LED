@@ -25,5 +25,10 @@ Super Cool Burning Man Wheel LEDs like the [Monkey Lights POV](https://www.youtu
 **hall_sync.py**  | The Hall Sensor Interrupt
 
 **frames.py** | Frame Data
+
 The Image for the wheel
+
+**convertImage.py** | Image converter
+
+Converts an image into frame data and adds it to frame.py
 
