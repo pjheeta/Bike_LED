@@ -1,22 +1,30 @@
-Burning Man LEDs based on Monkey Light Design
+XIAO ESP32-S3 (x2) — search: Seeed Studio XIAO ESP32S3 — ~$10-13 each
 
-🚲 Updated POV BOM — Qlife Racer (26" Wheel)
-⚠️ Key Decision First: Use the FRONT wheel
-The rear wheel has a hub motor — spoke geometry is different, it's heavier, and mounting is messier. Front wheel is clean, symmetrical, and easy to work with. All recommendations below assume front wheel.
+LiPo Battery 3.7V 2000mAh (x2) — search: 3.7V 2000mAh LiPo flat battery JST connector — ~$8-12 each
 
-Core Electronics
-#ComponentBike-Specific NotesEst. Cost1Raspberry Pi PicoStandard Pico~$42APA102 LED Strip — 144 LEDs/m26" wheel ≈ 270mm effective spoke length → cut to ~39 LEDs per arm~$183Hall Effect Sensor (A3144)Mounts on front fork — triggers once per rotation~$24Neodymium Magnet (6mm disc)Zip-tied to fork leg, passes sensor on each spin~$15LiPo Battery — 3.7V 2000mAhFlat pouch pack, mounts near hub on spoke arm~$126TP4056 Charger w/ ProtectionCharge via micro-USB when off bike~$27MT3608 5V Boost ConverterSteps 3.7V LiPo → 5V for Pico + LEDs~$2
-Mounting & Structure
-#ComponentNotesEst. Cost83mm Carbon Fiber Flat Strip (300mm)Rigid backing for LED strip — lightweight, won't flex at speed~$893D Printed Hub ClampHolds the Pico + battery at center hub (design printable at a makerspace)~$510Spoke attachment clips / zip tiesSecure carbon strip to 2 parallel spokes~$3
-Playa-Proofing (🔴 Non-negotiable for Burning Man)
-#ComponentNotesEst. Cost11MG Chemicals 419D Conformal CoatBest-in-class dust/moisture protection for all boards~$1512Silicone wire 24 AWGStays flexible in vibration, won't crack~$613Heat shrink + JST-SH connectorsModular disconnect points~$514Gasket foam tapeSeal around enclosure lid~$4
-Tools / Misc
-#ComponentNotesEst. Cost15Perf board (small)Wire up sensor + boost converter~$316Micro USB cablePico programming~$217MultimeterYou probably have one — verify voltages before first spin—
+TP4056 Charger Board (x2) — search: TP4056 charging module with protection — ~$1-2 each
 
-Revised Total: ~$90–110
+MT3608 Boost Converter (x2) — search: MT3608 DC-DC boost converter module — ~$1-2 each
 
-Two things worth flagging for Burning Man specifically:
-1. Balance matters at speed — once you mount the LED arm + battery, the wheel will be slightly unbalanced. At playa speeds (~15mph) this is usually fine, but mount the battery as close to center hub as possible to minimize it.
-2. Don't tap the e-bike battery — even though the bike has 36V on board, keeping the LED system on its own LiPo keeps it modular, safe, and swappable without touching the motor system.
+Hall Effect Sensor A3144 (pack of 10) — search: A3144 hall effect sensor module — ~$5-7
 
-Ready to dig into the Pico firmware next, or do you want to figure out the physical mounting design first?
+Neodymium Disc Magnets 6mm (pack of 20) — search: 6mm x 2mm neodymium disc magnets — ~$6-8
+
+Carbon Fiber Flat Strip — search: carbon fiber flat strip 3mm 300mm — ~$10-15
+
+MG Chemicals 419D Conformal Coat — search: MG Chemicals 419D conformal coating — ~$15-18
+
+Silicone Wire 24 AWG — search: 24 AWG silicone wire kit multicolor — ~$8-10
+
+JST-SH Connectors — search: JST SH 1.0mm connector kit — ~$8-10
+
+Heat Shrink Tubing — search: heat shrink tubing assorted sizes kit — ~$8-10
+
+Kill Switch (add both — button for riding, rocker for hard off)
+
+Momentary Tactile Push Button (pack of 20) — search: 6mm momentary tactile push button switch — ~$5 | Mounts on hub enclosure, one-handed toggle while riding
+
+Mini Rocker Switch (pack of 10) — search: mini rocker switch ON OFF SPST 3A — ~$7 | Hard power cut on the power line, no reboot needed if wired after TP4056
+
+SK9822 LED Strip, 5m, Black PCB, IP30 
+Slip ring, 6-wire, 2A/channel (metal housing preferred)
