@@ -1,6 +1,15 @@
 Flash LED
 pjheeta@PuddBuntu:~/Downloads$ esptool -p /dev/ttyACM0 flash-id
 
+
+Delete Flash
+esptool --chip esp32s3 --port /dev/ttyACM0 erase-flash
+
+
+
 upload Firmware
 pjheeta@PuddBuntu:~/Downloads$ esptool.py --chip esp32s3 --port /dev/ttyACM0 --baud 460800 write_flash -z 0x0 ESP32_GENERIC_S3-20260406-v1.28.0.bin
+or
+esptool --chip esp32s3 --port /dev/ttyACM0 --baud 460800 write-flash -z 0x0 ~/Downloads/ESP32_GENERIC_S3-20260406-v1.28.0.bin   
+
 
