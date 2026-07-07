@@ -2,17 +2,16 @@ from machine import Pin
 import time
 
 class HallSync:
-    def __init__(self, pin_num=3):
+    def __init__(self, pin_num=4):
         self.pin = Pin(pin_num, Pin.IN, Pin.PULL_UP)
         self.last_time = time.ticks_us()
-        self.period_us = 0          # time for one full rotation
+        self.period_us = 0
         self.rotation_count = 0
         self.pin.irq(trigger=Pin.IRQ_FALLING, handler=self._on_trigger)
 
     def _on_trigger(self, pin):
         now = time.ticks_us()
         diff = time.ticks_diff(now, self.last_time)
-        # debounce: ignore triggers faster than 5ms (false retriggers)
         if diff > 5000:
             self.period_us = diff
             self.last_time = now
@@ -22,9 +21,7 @@ class HallSync:
         return self.period_us
 
     def is_spinning(self):
-        # if no trigger in the last 1 second, treat the wheel as stopped
         return time.ticks_diff(time.ticks_us(), self.last_time) < 1_000_000
-    
 
 #     Test it stand-alone — upload this file, then in the shell:
 
