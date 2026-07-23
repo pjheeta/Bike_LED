@@ -18,3 +18,5 @@ print("done — LEDs should be red")
 
 # Blue
 # show([(0, 0, 255)] * 10)
+
+# strip.off() - Turns off all the LEDs on the strip.

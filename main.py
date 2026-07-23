@@ -4,9 +4,14 @@ import socket
 from machine import Pin
 from apa102 import APA102
 from hall_sync import HallSync
+# For 144 LED/meter
+# Front Wheel has 78 LEDS (39 on each side)
+# Back Wheel / Test Wheel has 72 LEDs (36 on each side)
+# For 30 LED/meter
+# 10" Spokes has 14 LEDs (7/side)
 
-strip = APA102(num_leds=144, brightness=31)
-#strip = APA102(num_leds=78, brightness=31)
+# LED CHANGE HERE (1/2)
+strip = APA102(num_leds=14, brightness=31)
 hall = HallSync(pin_num=4)
 
 ap = network.WLAN(network.AP_IF)
@@ -25,7 +30,9 @@ current_frame = 0
 rot_at_last_frame = 0
 ROTATIONS_PER_FRAME = 5
 NUM_COLUMNS = 60
-NUM_LEDS = 78
+
+# LED CHANGE HERE (2/2)
+NUM_LEDS = 14
 
 def make_test_frame():
     frame = []

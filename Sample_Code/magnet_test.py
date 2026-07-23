@@ -5,3 +5,5 @@ sensor = Pin(4, Pin.IN, Pin.PULL_UP)
 while True:
     print(sensor.value())
     time.sleep_ms(200)
+
+# strip.off() - Turns off all the LEDs on the strip.

@@ -14,3 +14,5 @@ def show(pixels):
 show([(255,0,0),(255,128,0),(255,255,0),(0,255,0),(0,255,128),
       (0,0,255),(128,0,255),(255,0,255),(255,0,128),(255,255,255)])
 print("Look at that Rainbow!")
+
+# strip.off() - Turns off all the LEDs on the strip.

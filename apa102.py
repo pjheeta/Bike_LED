@@ -1,8 +1,15 @@
+# For 144 LED/meter
+# Front Wheel has 78 LEDS (39 on each side)
+# Back Wheel / Test Wheel has 72 LEDs (36 on each side)
+# For 30 LED/meter
+# 10" Spokes has 14 LEDs (7/side)
+
 from machine import SPI, Pin
 
 class APA102:
     def __init__(self, spi_id=1, sck_pin=7, mosi_pin=9,
-                 num_leds=78, brightness=31):
+                 num_leds=14, brightness=31):
+        #CHANGE LED Length here
         self.num_leds = num_leds
         self.brightness = brightness & 0x1F
         self.spi = SPI(spi_id, baudrate=8_000_000,

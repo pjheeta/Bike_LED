@@ -33,3 +33,5 @@ class HallSync:
 # You should see the count increase and a period value in microseconds. 
 # If rotation_count stays at 0, check your wiring and confirm the GPIO 
 # pin number matches what you actually wired.
+
+#strip.off() - Turns off all the LEDs on the strip.
