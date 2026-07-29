@@ -20,20 +20,24 @@ POV (Persistence of Vision) LED display for a 26" bike wheel. Animated images ap
 
 | Component | Notes |
 |-----------|-------|
-| XIAO ESP32-S3 | Main controller — WiFi + MicroPython |
-| SK9822 LED strip | 144 LEDs/m, black PCB, IP30 — 78 LEDs total (39 per arm) |
-| LiPo 3.7V 2000mAh | Self-contained per wheel, removable nightly for charging |
-| TP4056 USB-C | LiPo charger with protection circuit |
-| MT3608 boost converter | 3.7V → 5V for LEDs and XIAO |
-| A3144 hall effect sensor | Rotation sync — one trigger per revolution |
-| 6mm neodymium magnet | Mounts on fork, triggers hall sensor |
-| 1/2 in. x 10 in - 1/8 in. Thick Aluminum Flat Bar | Bar to mount LED |
-| ABS enclosure 80×50×26mm | Hub-mounted, houses all electronics |
-| SPST rocker switch | Kill switch — mounted on enclosure wall |
+| 2x XIAO ESP32-S3 | Main controller — WiFi + MicroPython |
+| SK9822 LED strip | 144 LEDs/m, black PCB, IP30 — 72 LEDs total (36 per arm)<br> 30 LEDs/m black PCB, IP30 — 14 LEDs total (7 per arm)  |
+| 2x LiPo 3.7V 2000mAh | Self-contained per wheel, removable nightly for charging |
+| 2x TP4056 USB-C | LiPo charger with protection circuit |
+| 2x MT3608 boost converter | 3.7V → 5V for LEDs and XIAO |
+| 2x A3144 hall effect sensor | Rotation sync — one trigger per revolution |
+| 2x 6mm neodymium magnet | Mounts on fork, triggers hall sensor |
+| 2x 1/2 in. x 10 in - 1/8 in. Thick Aluminum Flat Bar | Bar to mount LED |
+| 2x ABS enclosure 80×50×26mm | Hub-mounted, houses all electronics |
+| 2x SPST rocker switch | Kill switch — mounted on enclosure wall |
 
 ## Two-arm design
 
-Two arms mounted 180° apart on opposite spokes. Each arm has LED strips on both faces of the carbon fiber bar — one facing left, one facing right. Visible from both sides of the bike, and perfectly balanced.
+**Front Wheel**
+Using 144 LED/Meter.  One arms mounted with LED strips on both faces on the aluminium bar — one facing left, one facing right. LEDS 1- 36 we will have the image, and then from 37-72, we will have the same image.   Will the second image need to be inverted since 37-72 start from the rim and finsh at the hub
+
+**Back Wheel**
+Using 30 LED/Meter. Using One arms mounted with LED strips on both faces on the aluminium bar — one facing left, one facing right. LEDS 1- 7 we will have the image, and then from 8-14, we will have the same image.   Will the second image need to be inverted since 37-72 start from the rim and finsh at the hub
 
 ```
         ARM 1
@@ -42,11 +46,6 @@ Two arms mounted 180° apart on opposite spokes. Each arm has LED strips on both
     ● ● ● ●      ← LEDs face left
         │
        HUB  (XIAO + battery)
-        │
-    ● ● ● ●
-    ═══════
-    ● ● ● ●
-        ARM 2
 ```
 
 ## Burning Man notes
