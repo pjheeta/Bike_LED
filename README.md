@@ -27,8 +27,7 @@ POV (Persistence of Vision) LED display for a 26" bike wheel. Animated images ap
 | MT3608 boost converter | 3.7V → 5V for LEDs and XIAO |
 | A3144 hall effect sensor | Rotation sync — one trigger per revolution |
 | 6mm neodymium magnet | Mounts on fork, triggers hall sensor |
-| 6-wire metal slip ring | Power + signal into spinning wheel |
-| Carbon fiber bar 3×3mm | Rigid spoke arm backing |
+| 1/2 in. x 10 in - 1/8 in. Thick Aluminum Flat Bar | Bar to mount LED |
 | ABS enclosure 80×50×26mm | Hub-mounted, houses all electronics |
 | SPST rocker switch | Kill switch — mounted on enclosure wall |
 
@@ -62,13 +61,27 @@ Two arms mounted 180° apart on opposite spokes. Each arm has LED strips on both
 - MicroPython
 - VS Code + MicroPico extension
 - Blood, sweat, and tears
+- claude.ai for tips and explanations
 - [StackEdit](https://stackedit.io/) for this README
 
 ## Files
-
+- **main.py** - Main loop — WiFi server + POV timing. Auto-runs on boot
+```
+Boot → Start WiFi + Web Server
+         ↓
+Loop → Check web requests every 100ms
+         ↓
+      Wheel spinning? No → LEDs off
+         ↓ Yes
+      Get rotation period from hall sensor
+         ↓
+      Display 60 columns timed to rotation speed
+         ↓
+      Repeat forever
+```
 | File | Purpose |
 |------|---------|
-| `main.py` | Main loop — WiFi server + POV timing. Auto-runs on boot. |
+
 | `apa102.py` | SPI driver for SK9822/APA102 LED strip |
 | `hall_sync.py` | Hall sensor interrupt handler — measures rotation period |
 | `frames.py` | Frame data — pixel columns for each animation frame |
