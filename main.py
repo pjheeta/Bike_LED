@@ -11,14 +11,15 @@ from hall_sync import HallSync
 
 
 # *** HARDWARE INITIALIZATION ***
-# For 144 LEDs/meter
-# Front Wheel has 72 LEDS (36 on each side)
-# Back Wheel / Test Wheel has 14 LEDs (7 on each side)
-# For 30 LEDs/meter
+# For 144 LED/meter
+# Front Wheel has 78 LEDS (39 on each side)
+# Back Wheel / Test Wheel has 72 LEDs (36 on each side)
+# For 30 LED/meter
 # 10" Spokes has 14 LEDs (7/side)
 
-# ****** LED CHANGE HERE (1/2) ****** 
-strip = APA102(num_leds=14, brightness=31)
+# ****** LED CHANGE HERE ****** 
+NUM_LEDS = 14  # Change this ONE value — everything else updates automatically
+strip = APA102(num_leds=NUM_LEDS, brightness=31)
 hall = HallSync(pin_num=4)
 
 # *** AP Configuration / Start Wi-Fi Hotspot ***
@@ -62,8 +63,7 @@ current_frame = 0 # Which animation frame is currently being displayed
 rot_at_last_frame = 0 # tracks when to advance to the next frame based on rotations
 ROTATIONS_PER_FRAME = 5 # How many rotations to wait before advancing to the next frame
 NUM_COLUMNS = 60 # How many columns of pixels to display per frame
-# ****** LED CHANGE HERE (2/2) ****** 
-NUM_LEDS = 14 # How many LEDs per arm — all other LED counts in the code use this variable automatically
+# NUM_LEDS is defined above and passed to APA102 — only one place to change!
 
 
 # *** TEST FRAME GENERATOR ***
