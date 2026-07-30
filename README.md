@@ -78,10 +78,41 @@ Loop → Check web requests every 100ms
          ↓
       Repeat forever
 ```
+- **apa102.py** - SPI driver for SK9822/APA102 LED strip
+```
+XIAO GPIO9 (MOSI) ──→ DI ──→ LED 1 ──→ LED 2 ──→ ... ──→ LED 72
+XIAO GPIO7 (SCK)  ──→ CI ──→ LED 1 ──→ LED 2 ──→ ... ──→ LED 72
+
+Each LED receives 4 bytes, keeps its own color data, and passes the remaining bytes down the chain to the next LED. The end frame bytes clock through to make sure the last LED in the chain latches its data correctly.
+
+Every strip.show() call sends this exact sequence:
+[00 00 00 00]           ← Start frame (4 zero bytes) — "attention LEDs!"
+[FF rr gg bb]           ← LED 1 color (4 bytes)
+[FF rr gg bb]           ← LED 2 color (4 bytes)
+...
+[FF rr gg bb]           ← LED 72 color (4 bytes)
+[FF FF FF FF FF]        ← End frame — "that's all!"
+```
+
+- **hall_sync.py** - SPI driver for SK9822/APA102 LED strip
+```
+Magnet passes sensor
+        ↓
+Pin goes HIGH → LOW (falling edge)
+        ↓
+Hardware interrupt fires instantly
+        ↓
+_on_trigger() records timestamp + period + count
+        ↓
+main.py reads period_us → calculates column timing
+main.py reads rotation_count → advances animation frame
+main.py calls is_spinning() → decides whether to show LEDs
+```
+
 | File | Purpose |
 |------|---------|
 
-| `apa102.py` | SPI driver for SK9822/APA102 LED strip |
+| `` |  |
 | `hall_sync.py` | Hall sensor interrupt handler — measures rotation period |
 | `frames.py` | Frame data — pixel columns for each animation frame |
 | `convertImage.py` | Laptop-side script — converts PNG to `frames.py` format |
