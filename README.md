@@ -5,7 +5,16 @@
 </p>
 
 <p align="center">
-  Super cool Burning Man wheel LEDs inspired by <a href="https://www.youtube.com/watch?v=W3Gmv9J05eQ">Monkey Lights POV</a>
+  Super cool Burning Man wheel LEDs inspired by:
+</p>
+<p align="left">
+  - <a href="https://www.youtube.com/watch?v=W3Gmv9J05eQ">Monkey Lights POV</a>
+</p>
+<p align="left">
+  - Luca Schultz's project <a href="https://github.com/BikeBeamer/BikeBeamer">BikeBeamer</a> 
+</p>
+<p align="left">
+  - Adafruit Industries <a href="https://www.youtube.com/watch?v=bFn6-SJZuSk">BikeWheel POV Display with Pro Trinket</a> 
 </p>
 
 ---
