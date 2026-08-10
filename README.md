@@ -14,7 +14,7 @@
   - Luca Schultz's project <a href="https://github.com/BikeBeamer/BikeBeamer">BikeBeamer</a> 
 </p>
 <p align="left">
-  - Adafruit Industries <a href="https://www.youtube.com/watch?v=bFn6-SJZuSk">BikeWheel POV Display with Pro Trinket</a> 
+  - Adafruit Industries <a href="https://learn.adafruit.com/bike-wheel-pov-display/prep-leds-and-breadboard?view=all">BikeWheel POV Display with Pro Trinket</a> 
 </p>
 
 ---
