@@ -1,7 +1,6 @@
-# For 144 LED/meter
-# Front Wheel has 72 LEDS (36 on each side)
-# For 30 LED/meter
-# 10" Spokes has 14 LEDs (7/side)
+# For 144 LED/meter — Front Wheel
+# 4 arms x 2 faces x 27 LEDs = 216 LEDs total
+# Daisy chain: XIAO → A1→B1→A2→B2→A3→B3→A4→B4
 # NUM_LEDS is defined in main.py and passed to this class — only change it there
 
 # *** LOADS ALL THE LIBRARIES NEEDED ***
@@ -15,11 +14,11 @@ from machine import SPI, Pin
 # sck_pin=7 — which GPIO pin is the clock (yellow wire / CI). GPIO7 = D8 on XIAO.
 # mosi_pin=9 — which GPIO pin is the data (green wire / DI). GPIO9 = D10 on XIAO.
 # num_leds — how many LEDs in the chain. No default — must be passed from main.py via NUM_LEDS.
-# brightness=31 — global brightness, 0-31. 31 is maximum.
+# brightness=8 — global brightness 0-31. 8 is plenty bright on dark playa and saves battery.
 class APA102:
     def __init__(self, spi_id=1, sck_pin=7, mosi_pin=9,
-                 num_leds=None, brightness=31):
-        self.num_leds = num_leds  # Received from main.py
+                 num_leds=None, brightness=8):
+        self.num_leds = num_leds  # Received from main.py — do not hardcode here
         self.brightness = brightness & 0x1F
         # 0x1F in binary is 00011111 — forces brightness to stay within 0-31
         # even if someone accidentally passes a higher value. Safety clamp.
@@ -53,9 +52,9 @@ class APA102:
         # End frame — required by APA102 protocol to signal end of data.
         # Formula (num_leds // 16) + 1 calculates how many 0xFF bytes are needed.
         # More LEDs in the chain = more end bytes needed to clock signal to the last LED.
-        # Example: 14 LEDs → (14 // 16) + 1 = 1 byte. 72 LEDs → (72 // 16) + 1 = 5 bytes.
+        # Example: 14 LEDs → (14 // 16) + 1 = 1 byte. 216 LEDs → (216 // 16) + 1 = 14 bytes.
         self.spi.write(data)  # Blasts the entire byte array out over SPI in one shot.
-        # At 8MHz, 72 LEDs worth of data takes about 288 microseconds — effectively instant.
+        # At 8MHz, 216 LEDs worth of data takes about 864 microseconds — still fast enough for POV.
 
 
     # *** METHOD THAT TURNS OFF ALL THE LEDS ***

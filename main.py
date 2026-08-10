@@ -13,17 +13,26 @@ from frames import make_test_frame
 
 
 # *** HARDWARE INITIALIZATION ***
-# For 144 LED/meter
-# Front Wheel has 72 LEDS (36 on each side — front and back face of one arm)
-# For 30 LED/meter
+# Front Wheel Architecture — 4 arms, 2 faces per arm, 8 strips total
+# Each strip has 27 LEDs at 144 LED/meter = 187mm (~7.4") per arm
+# Total: 27 LEDs x 8 strips = 216 LEDs
+#
+# Daisy chain order:
+# ESP Box → A1(1-27) → B1(28-54) → A2(55-81) → B2(82-108)
+#         → A3(109-135) → B3(136-162) → A4(163-189) → B4(190-216)
+#
+# A = Front face (hub → rim)
+# B = Back face (rim → hub) — columns reversed in frames.py
+#
+# For 30 LED/meter rear wheel:
 # 10" Spokes has 14 LEDs (7/side)
 
 # ****** LED CHANGE HERE — THIS IS THE ONLY LINE YOU NEED TO CHANGE WHEN SWAPPING STRIPS ******
-NUM_LEDS = 14  # Change this ONE value — everything else updates automatically
+NUM_LEDS = 216  # 27 LEDs x 8 strips (4 arms x 2 faces) — change this ONE value only
 
 NUM_COLUMNS = 60  # How many angular slices per rotation — do not change
 
-strip = APA102(num_leds=NUM_LEDS, brightness=31)  # NUM_LEDS passed in — no hardcoding in apa102.py
+strip = APA102(num_leds=NUM_LEDS, brightness=8)  # brightness=8 — plenty bright on dark playa, saves battery
 hall = HallSync(pin_num=4)  # Hall sensor on GPIO4 (D3 on XIAO)
 
 
@@ -74,7 +83,8 @@ ROTATIONS_PER_FRAME = 5  # How many wheel rotations before advancing to next fra
 
 # *** BUILD FRAMES ***
 # Passes NUM_COLUMNS and NUM_LEDS to frames.py — single source of truth stays in main.py.
-# Add more frames here as you build them (Nyan Cat, polka dots, Joe's face etc.)
+# frames.py handles front/back face reversal automatically.
+# Add more frames here as you build them (circle, square, cross etc.)
 FRAMES = [make_test_frame(NUM_COLUMNS, NUM_LEDS)]
 
 
@@ -134,7 +144,7 @@ while True:
     # *** POV TIMING ENGINE ***
     # Gets rotation period from hall sensor.
     # period = how long one full rotation takes in microseconds.
-    # e.g. 500,000µs = 0.5 seconds = 120 RPM
+    # e.g. 1,000,000µs = 1 second = 60 RPM (playa speed ~5mph)
     period = hall.get_period()
     if period == 0:
         time.sleep_ms(10)
@@ -148,14 +158,14 @@ while True:
         rot_at_last_frame = hall.rotation_count
 
     # column_dur = microseconds each column gets to display
-    # e.g. 500,000µs ÷ 60 columns = ~8,333µs per column
+    # e.g. 1,000,000µs ÷ 60 columns = ~16,666µs per column at 60 RPM
     column_dur = period // NUM_COLUMNS
     frame = FRAMES[current_frame]
 
     # *** POV COLUMN DISPLAY LOOP — THE HEART OF POV ***
     # For each of the 60 columns:
     # 1. Record start time in microseconds
-    # 2. Push column colors to LEDs via SPI (takes ~288µs for 72 LEDs)
+    # 2. Push column colors to LEDs via SPI
     # 3. Calculate how long the SPI write took
     # 4. Sleep the remaining time so each column gets exactly column_dur microseconds
     #
