@@ -1,41 +1,112 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
-  <!-- Rim -->
-  <circle cx="100" cy="100" r="88" fill="none" stroke="#334155" stroke-width="4"/>
-  <!-- Spinning group using SMIL animateTransform -->
+  <defs>
+    <!-- Glow filter for LEDs -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Static background rim -->
+  <circle cx="100" cy="100" r="88" fill="none" stroke="#334155" stroke-width="5"/>
+  <circle cx="100" cy="100" r="86" fill="none" stroke="#1e293b" stroke-width="3"/>
+
+  <!-- Magnet dot on fork (stationary) -->
+  <circle cx="100" cy="14" r="5" fill="#7C3AED" opacity="0.9" filter="url(#glow)"/>
+
+  <!-- Spinning group -->
   <g>
     <animateTransform attributeName="transform" type="rotate"
       from="0 100 100" to="360 100 100" dur="2.5s" repeatCount="indefinite"/>
-    <!-- Spokes -->
-    <line x1="100" y1="100" x2="100" y2="18" stroke="#475569" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="100" y1="100" x2="176" y2="56" stroke="#475569" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="100" y1="100" x2="176" y2="144" stroke="#475569" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="100" y1="100" x2="100" y2="182" stroke="#475569" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="100" y1="100" x2="24" y2="144" stroke="#475569" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="100" y1="100" x2="24" y2="56" stroke="#475569" stroke-width="1.5" stroke-linecap="round"/>
-    <!-- Carbon fiber bars -->
-    <rect x="97.5" y="18" width="5" height="82" rx="2" fill="#1e293b" opacity="0.8"/>
-    <rect x="97.5" y="100" width="5" height="82" rx="2" fill="#1e293b" opacity="0.8"/>
-    <!-- Arm 1 LEDs -->
-    <circle cx="101" cy="78" r="4.5" fill="#f43f5e"/>
-    <circle cx="101" cy="62" r="4.5" fill="#fb923c"/>
-    <circle cx="101" cy="46" r="4.5" fill="#facc15"/>
-    <circle cx="101" cy="30" r="4.5" fill="#4ade80"/>
-    <!-- Arm 1 opposite face LEDs -->
-    <circle cx="99" cy="78" r="4.5" fill="#06b6d4"/>
-    <circle cx="99" cy="62" r="4.5" fill="#818cf8"/>
-    <circle cx="99" cy="46" r="4.5" fill="#f43f5e"/>
-    <circle cx="99" cy="30" r="4.5" fill="#fb923c"/>
-    <!-- Arm 2 LEDs -->
-    <circle cx="101" cy="122" r="4.5" fill="#facc15"/>
-    <circle cx="101" cy="138" r="4.5" fill="#4ade80"/>
-    <circle cx="101" cy="154" r="4.5" fill="#06b6d4"/>
-    <circle cx="101" cy="170" r="4.5" fill="#818cf8"/>
-    <!-- Arm 2 opposite face LEDs -->
-    <circle cx="99" cy="122" r="4.5" fill="#f43f5e"/>
-    <circle cx="99" cy="138" r="4.5" fill="#fb923c"/>
-    <circle cx="99" cy="154" r="4.5" fill="#facc15"/>
-    <circle cx="99" cy="170" r="4.5" fill="#4ade80"/>
+
+    <!-- Spokes (faint) -->
+    <line x1="100" y1="100" x2="100" y2="18" stroke="#334155" stroke-width="1" opacity="0.5"/>
+    <line x1="100" y1="100" x2="182" y2="100" stroke="#334155" stroke-width="1" opacity="0.5"/>
+    <line x1="100" y1="100" x2="100" y2="182" stroke="#334155" stroke-width="1" opacity="0.5"/>
+    <line x1="100" y1="100" x2="18" y2="100" stroke="#334155" stroke-width="1" opacity="0.5"/>
+
+    <!-- Additional spokes -->
+    <line x1="100" y1="100" x2="162" y2="38" stroke="#334155" stroke-width="1" opacity="0.3"/>
+    <line x1="100" y1="100" x2="162" y2="162" stroke="#334155" stroke-width="1" opacity="0.3"/>
+    <line x1="100" y1="100" x2="38" y2="162" stroke="#334155" stroke-width="1" opacity="0.3"/>
+    <line x1="100" y1="100" x2="38" y2="38" stroke="#334155" stroke-width="1" opacity="0.3"/>
+
+    <!-- ARM 1 — Vertical UP (0°) -->
+    <!-- Aluminum bar -->
+    <rect x="97.5" y="18" width="5" height="70" rx="2" fill="#1e293b" opacity="0.9"/>
+    <!-- A face LEDs (front, x=103) hub→rim = bottom to top -->
+    <circle cx="103" cy="82" r="3.5" fill="#ff0000" filter="url(#glow)"/>
+    <circle cx="103" cy="70" r="3.5" fill="#ff4500" filter="url(#glow)"/>
+    <circle cx="103" cy="58" r="3.5" fill="#ffcc00" filter="url(#glow)"/>
+    <circle cx="103" cy="46" r="3.5" fill="#00ff00" filter="url(#glow)"/>
+    <circle cx="103" cy="34" r="3.5" fill="#00ccff" filter="url(#glow)"/>
+    <circle cx="103" cy="22" r="3.5" fill="#0000ff" filter="url(#glow)"/>
+    <!-- B face LEDs (back, x=97) rim→hub = top to bottom reversed -->
+    <circle cx="97" cy="22" r="3.5" fill="#9400d3" filter="url(#glow)"/>
+    <circle cx="97" cy="34" r="3.5" fill="#0000ff" filter="url(#glow)"/>
+    <circle cx="97" cy="46" r="3.5" fill="#00ccff" filter="url(#glow)"/>
+    <circle cx="97" cy="58" r="3.5" fill="#00ff00" filter="url(#glow)"/>
+    <circle cx="97" cy="70" r="3.5" fill="#ffcc00" filter="url(#glow)"/>
+    <circle cx="97" cy="82" r="3.5" fill="#ff4500" filter="url(#glow)"/>
+
+    <!-- ARM 2 — Horizontal RIGHT (90°) -->
+    <rect x="112" y="97.5" width="70" height="5" rx="2" fill="#1e293b" opacity="0.9"/>
+    <!-- A face LEDs (front, y=103) -->
+    <circle cx="118" cy="103" r="3.5" fill="#ff0000" filter="url(#glow)"/>
+    <circle cx="130" cy="103" r="3.5" fill="#ff4500" filter="url(#glow)"/>
+    <circle cx="142" cy="103" r="3.5" fill="#ffcc00" filter="url(#glow)"/>
+    <circle cx="154" cy="103" r="3.5" fill="#00ff00" filter="url(#glow)"/>
+    <circle cx="166" cy="103" r="3.5" fill="#00ccff" filter="url(#glow)"/>
+    <circle cx="178" cy="103" r="3.5" fill="#0000ff" filter="url(#glow)"/>
+    <!-- B face LEDs (back, y=97) -->
+    <circle cx="178" cy="97" r="3.5" fill="#9400d3" filter="url(#glow)"/>
+    <circle cx="166" cy="97" r="3.5" fill="#0000ff" filter="url(#glow)"/>
+    <circle cx="154" cy="97" r="3.5" fill="#00ccff" filter="url(#glow)"/>
+    <circle cx="142" cy="97" r="3.5" fill="#00ff00" filter="url(#glow)"/>
+    <circle cx="130" cy="97" r="3.5" fill="#ffcc00" filter="url(#glow)"/>
+    <circle cx="118" cy="97" r="3.5" fill="#ff4500" filter="url(#glow)"/>
+
+    <!-- ARM 3 — Vertical DOWN (180°) -->
+    <rect x="97.5" y="112" width="5" height="70" rx="2" fill="#1e293b" opacity="0.9"/>
+    <!-- A face LEDs (front, x=103) -->
+    <circle cx="103" cy="118" r="3.5" fill="#ff0000" filter="url(#glow)"/>
+    <circle cx="103" cy="130" r="3.5" fill="#ff4500" filter="url(#glow)"/>
+    <circle cx="103" cy="142" r="3.5" fill="#ffcc00" filter="url(#glow)"/>
+    <circle cx="103" cy="154" r="3.5" fill="#00ff00" filter="url(#glow)"/>
+    <circle cx="103" cy="166" r="3.5" fill="#00ccff" filter="url(#glow)"/>
+    <circle cx="103" cy="178" r="3.5" fill="#0000ff" filter="url(#glow)"/>
+    <!-- B face LEDs (back, x=97) reversed -->
+    <circle cx="97" cy="178" r="3.5" fill="#9400d3" filter="url(#glow)"/>
+    <circle cx="97" cy="166" r="3.5" fill="#0000ff" filter="url(#glow)"/>
+    <circle cx="97" cy="154" r="3.5" fill="#00ccff" filter="url(#glow)"/>
+    <circle cx="97" cy="142" r="3.5" fill="#00ff00" filter="url(#glow)"/>
+    <circle cx="97" cy="130" r="3.5" fill="#ffcc00" filter="url(#glow)"/>
+    <circle cx="97" cy="118" r="3.5" fill="#ff4500" filter="url(#glow)"/>
+
+    <!-- ARM 4 — Horizontal LEFT (270°) -->
+    <rect x="18" y="97.5" width="70" height="5" rx="2" fill="#1e293b" opacity="0.9"/>
+    <!-- A face LEDs (front, y=103) -->
+    <circle cx="82" cy="103" r="3.5" fill="#ff0000" filter="url(#glow)"/>
+    <circle cx="70" cy="103" r="3.5" fill="#ff4500" filter="url(#glow)"/>
+    <circle cx="58" cy="103" r="3.5" fill="#ffcc00" filter="url(#glow)"/>
+    <circle cx="46" cy="103" r="3.5" fill="#00ff00" filter="url(#glow)"/>
+    <circle cx="34" cy="103" r="3.5" fill="#00ccff" filter="url(#glow)"/>
+    <circle cx="22" cy="103" r="3.5" fill="#0000ff" filter="url(#glow)"/>
+    <!-- B face LEDs (back, y=97) reversed -->
+    <circle cx="22" cy="97" r="3.5" fill="#9400d3" filter="url(#glow)"/>
+    <circle cx="34" cy="97" r="3.5" fill="#0000ff" filter="url(#glow)"/>
+    <circle cx="46" cy="97" r="3.5" fill="#00ccff" filter="url(#glow)"/>
+    <circle cx="58" cy="97" r="3.5" fill="#00ff00" filter="url(#glow)"/>
+    <circle cx="70" cy="97" r="3.5" fill="#ffcc00" filter="url(#glow)"/>
+    <circle cx="82" cy="97" r="3.5" fill="#ff4500" filter="url(#glow)"/>
+
   </g>
-  <!-- Hub on top -->
-  <circle cx="100" cy="100" r="10" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+
+  <!-- Hub (on top, stationary appearance) -->
+  <circle cx="100" cy="100" r="12" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+  <circle cx="100" cy="100" r="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+
 </svg>
