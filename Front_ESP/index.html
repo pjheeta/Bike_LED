@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0a0a0a">
+<title>BikeWheel</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0a0a0a;
+    color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    gap: 24px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #ff0080, #7928ca, #0070f3, #00dfd8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  #status-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #333;
+    display: inline-block;
+    margin-right: 6px;
+    transition: background 0.3s;
+  }
+  #status-dot.on  { background: #00ff88; box-shadow: 0 0 8px #00ff88; }
+  #status-dot.off { background: #ff3333; box-shadow: 0 0 8px #ff3333; }
+
+  #status-text { font-size: 0.85rem; color: #888; }
+
+  .card {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 16px;
+    padding: 24px;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .card-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #555;
+    margin-bottom: 16px;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 12px;
+  }
+
+  button {
+    flex: 1;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+    letter-spacing: 0.5px;
+  }
+
+  button:active { transform: scale(0.96); opacity: 0.8; }
+
+  .btn-on    { background: #00ff88; color: #000; }
+  .btn-off   { background: #ff3333; color: #fff; }
+  .btn-next  { background: #7928ca; color: #fff; }
+  .btn-full  { width: 100%; margin-top: 12px; background: #1a1a1a; color: #aaa; border: 1px solid #333; }
+
+  .slider-row {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .slider-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 6px;
+  }
+
+  input[type=range] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: #333;
+    outline: none;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: #7928ca;
+    cursor: pointer;
+  }
+
+  .rpm-display {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #00dfd8;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .rpm-label { font-size: 0.75rem; color: #555; text-align: center; margin-top: 4px; }
+
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #222;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<h1>🚲 BikeWheel</h1>
+
+<div style="display:flex;align-items:center;gap:6px">
+  <span id="status-dot"></span>
+  <span id="status-text">Connecting...</span>
+</div>
+
+<!-- Power control -->
+<div class="card">
+  <div class="card-title">Power</div>
+  <div class="btn-row">
+    <button class="btn-on"  onclick="send('/on')">ON</button>
+    <button class="btn-off" onclick="send('/off')">OFF</button>
+  </div>
+</div>
+
+<!-- Animation -->
+<div class="card">
+  <div class="card-title">Animation</div>
+  <button class="btn-next" style="width:100%" onclick="send('/next')">Next Pattern ›</button>
+</div>
+
+<!-- Brightness -->
+<div class="card">
+  <div class="card-title">Brightness</div>
+  <div class="slider-row">
+    <div>
+      <div class="slider-label"><span>Brightness</span><span id="brightness-val">8</span></div>
+      <input type="range" min="1" max="31" value="8" id="brightness-slider"
+             onchange="send('/brightness/' + this.value); document.getElementById('brightness-val').textContent = this.value">
+    </div>
+  </div>
+</div>
+
+<!-- RPM display -->
+<div class="card">
+  <div class="card-title">Live Data</div>
+  <div class="rpm-display" id="rpm-display">--</div>
+  <div class="rpm-label">RPM</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const BASE = 'http://192.168.4.1';
+let ledsOn = false;
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+async function send(path) {
+  try {
+    const res = await fetch(BASE + path, { signal: AbortSignal.timeout(3000) });
+    if (path.includes('/on'))  { setStatus(true);  showToast('LEDs ON ✓'); }
+    if (path.includes('/off')) { setStatus(false); showToast('LEDs OFF ✓'); }
+    if (path.includes('/next')) showToast('Next pattern ✓');
+    if (path.includes('/brightness')) showToast('Brightness set ✓');
+  } catch(e) {
+    showToast('Connection error ✗');
+    setStatus(null);
+  }
+}
+
+function setStatus(on) {
+  const dot  = document.getElementById('status-dot');
+  const text = document.getElementById('status-text');
+  if (on === true)  { dot.className = 'on';  text.textContent = 'Connected — LEDs ON';  ledsOn = true; }
+  if (on === false) { dot.className = 'off'; text.textContent = 'Connected — LEDs OFF'; ledsOn = false; }
+  if (on === null)  { dot.className = '';    text.textContent = 'Connection lost'; }
+}
+
+// Poll status every 3 seconds
+async function pollStatus() {
+  try {
+    const res  = await fetch(BASE + '/status', { signal: AbortSignal.timeout(2000) });
+    const data = await res.json();
+    setStatus(data.leds_on);
+    document.getElementById('rpm-display').textContent = Math.round(data.rpm || 0);
+  } catch(e) {
+    // silently fail — toast only on user action
+  }
+}
+
+// Initial ping
+fetch(BASE + '/ping', { signal: AbortSignal.timeout(2000) })
+  .then(() => setStatus(false))
+  .catch(() => setStatus(null));
+
+setInterval(pollStatus, 3000);
+</script>
+</body>
+</html>

@@ -1,7 +1,10 @@
 import time
 from apa102 import APA102
 
-NUM_LEDS = 40
+NUM_LEDS = 19
+#final strip is 216 LEDs
+#Test strip is 19 LEDs
+
 strip = APA102(num_leds=NUM_LEDS, brightness=8)
 
 def hsv_to_rgb(h):
