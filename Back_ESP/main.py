@@ -17,12 +17,19 @@ Behavior:
 
 import time
 import random
+import network
 from apa102 import APA102
 from espnow_rx import ESPNowReceiver
 
 # ── Config ────────────────────────────────────────────────────────────────────
 NUM_LEDS   = 40
 BRIGHTNESS = 8
+
+# ── WiFi AP ───────────────────────────────────────────────────────────────────
+ap = network.WLAN(network.AP_IF)
+ap.active(True)
+ap.config(essid='BikeWheelRear', password='burningman', authmode=3)
+print('WiFi AP:', ap.ifconfig()[0])
 
 # ── Hardware ──────────────────────────────────────────────────────────────────
 strip = APA102(num_leds=NUM_LEDS, brightness=BRIGHTNESS)
