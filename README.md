@@ -19,11 +19,29 @@
 
 ---
 
-## Overview
+# Burning Man 2026 Update
+
+<b>The project was a partial failure</b>
+- The POV (Persistence of Vision) system did not work.   The Magnet / Hall Sensor Solution was a horrible Idea.    The magnets were not strong enough to trigger the hall sensor and mounting Magnets to the Bike was not practical.
+- The industrial ABS boxes could not be secured with even two industrial strength zip ties.    The Playa was not an even ground and the the force of the bike wheels hitting the Playa released the boxes from the zip ties,  resulting in the ABS boxes from being ejected from the bike, and causing the wires to be broken. 
+- The 26 AWG wires constantly broke, expecially from the Strip to Strip connecitons.   Detailed soldering on the Playa was not possible, and it was tiem consuming. 
+- ESP Wi-Fi was not operational while using the LIPO batteries.   Wi-Fi worked with USB powered circuits, however I failed to test the completed system  powered by the Lipo batteres.    1 day before leaving for the burn, I relized the circuit required additioanl capaitors to power the circuit with the LIPO batteries.   I did not have a time to implement this, thus I had uploaded a 20 random patterns per bike wheel circuit to appear whenever the Bike LED system was turned on.
+
+
+<b>Future changes to the system</b>
+- 3D print the the enclosures and the LED Strips to directly attach to the bike spokes
+- Use a Gyroscope, to measue rotations, eliminating the magnet
+- Make the system modulate.     Do not rely on soldering connecitons, instead use physical connectors.   If the LED strips fails, it can easily be swapped out for a working one.
+
+
+
+## ---
+
+# Overview
 
 POV (Persistence of Vision) LED display for a bike wheel. Animated images appear to float in the spinning wheel, visible from both sides. Controlled via WiFi from your phone — no app needed, although an Android app was created.
 
-This project began with the idea of only having one LED strip per side. However, you would need to bike in excess of 20 mph to generate a stable image. Since this project was built for Burning Man, where the max speed is 5 mph on the playa, a single LED strip per arm wouldn't work.
+This project began withThis pdea of only having one LED strip per side. However, you would need to bike in excess of 20 mph to generate a stable image. Since this project was built for Burning Man, where the max speed is 5 mph on the playa, a single LED strip per arm wouldn't work.
 
 After consulting with Luca Schultz (BikeBeamer builder), the design changed to **4 arms per wheel** with LED strips on both faces of each arm — 8 LED strips per wheel total. At around 5 mph, the image flashes 4 times per rotation, making basic shapes such as squares, circles, and the Man himself clearly visible.
 
